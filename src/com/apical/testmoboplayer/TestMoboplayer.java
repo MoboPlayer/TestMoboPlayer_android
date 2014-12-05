@@ -98,7 +98,7 @@ public class TestMoboplayer extends Activity {
 			recordSize = 0;
 		}
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				videoLayout.getWidth(), videoLayout.getHeight());
+				size[recordSize],size[recordSize]);//videoLayout.getWidth(), videoLayout.getHeight()，此处大小为想要设置的图像的大小
 		mMoboVideoView.setLayoutParams(params);
 		Logd("141203 - mMoboVideoView - w = " + mMoboVideoView.getWidth()
 				+ " h = " + mMoboVideoView.getHeight());
