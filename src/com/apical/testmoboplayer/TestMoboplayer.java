@@ -172,7 +172,7 @@ public class TestMoboplayer extends Activity {
 		@Override
 		public void onPlayFinished(String arg0) {
 			// TODO Auto-generated method stub
-
+			//此处为播放完成回调方法
 		}
 	};
 
