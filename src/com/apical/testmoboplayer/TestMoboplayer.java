@@ -1,25 +1,24 @@
 package com.apical.testmoboplayer;
 
-import com.clov4r.moboplayer.android.nil.library.FloatPlayerListener;
-import com.clov4r.moboplayer.android.rtmp.MoboVideoView;
-import com.clov4r.moboplayer.android.rtmp.MoboVideoView.OnVideoStateChangedListener;
-import com.clov4r.moboplayer.android.rtmp.Moboplayer1107;
-
-import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.clov4r.moboplayer.android.nil.library.Global;
+import com.clov4r.moboplayer.android.nil.library.ScreenShotLib;
+import com.clov4r.moboplayer.android.nil.library.ScreenShotLib.ScreenShotListener;
+import com.clov4r.moboplayer.android.rtmp.MoboVideoView;
+import com.clov4r.moboplayer.android.rtmp.MoboVideoView.OnVideoStateChangedListener;
 
 public class TestMoboplayer extends Activity {
 
@@ -98,7 +97,8 @@ public class TestMoboplayer extends Activity {
 			recordSize = 0;
 		}
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				size[recordSize],size[recordSize]);//videoLayout.getWidth(), videoLayout.getHeight()，此处大小为想要设置的图像的大小
+				size[recordSize], size[recordSize]);// videoLayout.getWidth(),
+													// videoLayout.getHeight()，此处大小为想要设置的图像的大小
 		mMoboVideoView.setLayoutParams(params);
 		Logd("141203 - mMoboVideoView - w = " + mMoboVideoView.getWidth()
 				+ " h = " + mMoboVideoView.getHeight());
@@ -172,7 +172,7 @@ public class TestMoboplayer extends Activity {
 		@Override
 		public void onPlayFinished(String arg0) {
 			// TODO Auto-generated method stub
-			//此处为播放完成回调方法
+			// 此处为播放完成回调方法
 		}
 	};
 
@@ -198,6 +198,8 @@ public class TestMoboplayer extends Activity {
 			case R.id.btn_3:
 				Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
 						+ mMoboVideoView.getDecodeMode());
+//				getScreenShot(mMoboVideoView.getCurrentVideoPath(),50*1000,300,200);
+				getScreenShot(mMoboVideoView.getCurrentVideoPath(),350*1000,500,350);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
@@ -223,5 +225,45 @@ public class TestMoboplayer extends Activity {
 			}
 		}
 
+	}
+
+	/** 截图完毕回调的接口 **/
+	ScreenShotListener mScreenShotListener = new ScreenShotListener() {
+		@Override
+		public void onFinished(String videoPath, String imageSavePath,
+				Bitmap bitmap) {
+			// TODO Auto-generated method stub
+			Toast.makeText(TestMoboplayer.this, "截图完成", Toast.LENGTH_LONG)
+					.show();
+		}
+	};
+
+	/**
+	 * 截图缩略图均可用此方法
+	 * 
+	 * @param currentVideoPath
+	 *            视频路径
+	 * @param time
+	 *            截图时间，单位毫秒
+	 * @param width
+	 *            截图宽
+	 * @param height
+	 *            截图高
+	 */
+	void getScreenShot(String currentVideoPath, int time, int width, int height) {
+		// 异步方式获取截图
+		ScreenShotLib mScreenShotLib = new ScreenShotLib(this,
+				currentVideoPath, "/sdcard/mobo_video_view/"
+						+ Global.getNameOf(currentVideoPath) + "_a.png", time,
+				width, height);
+		mScreenShotLib.screenShotAsynchronous(mScreenShotListener);
+		// 异步方式获取截图
+
+		// 同步方式获取截图
+		mScreenShotLib = new ScreenShotLib(this, currentVideoPath,
+				"/sdcard/mobo_video_view/" + Global.getNameOf(currentVideoPath)
+						+ "_s.png", time, width, height);
+		mScreenShotLib.screenShotSynchronous();
+		// 同步方式获取截图
 	}
 }
