@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity" >
+
+    <LinearLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </RelativeLayout>
+        
+        <Button
+            android:id="@+id/btn_showorhide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/player_seek_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/subtitle_view"
+        android:layout_marginLeft="3dp"
+        android:maxHeight="3dip"
+        android:progressDrawable="@drawable/seekbar_style" />
+
+    <TextView
+        android:id="@+id/subtitle_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/contraller_layout"
+        android:textColor="@color/white"
+        android:textSize="21sp" />
+
+    <LinearLayout
+        android:id="@+id/contraller_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/player_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上一曲" />
+
+        <Button
+            android:id="@+id/player_seek_backward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="后退" />
+
+        <Button
+            android:id="@+id/player_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="播放/暂停" />
+
+        <Button
+            android:id="@+id/player_seek_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="快进" />
+
+        <Button
+            android:id="@+id/player_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一曲" />
+
+        <Button
+            android:id="@+id/player_screen_shot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="截图" />
+    </LinearLayout>
+
+</RelativeLayout>
