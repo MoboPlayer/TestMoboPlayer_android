@@ -68,9 +68,11 @@ public class TestMoboplayer extends Activity {
 		mMoboVideoView = new MoboVideoView(this, null);
 		mMoboVideoView.loadNativeLibs();
 		mMoboVideoView
-				.setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv"); // /mnt/sdcard/AiproDown/wondergirls-nobody.MP4--
-																																		// 请改为对应的地址
-		// mMoboVideoView.setVideoPath("rtmp://192.168.0.236/fileList/test.flv");
+				.setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv");
+		// // /mnt/sdcard/AiproDown/wondergirls-nobody.MP4--
+		// 请改为对应的地址
+		// mMoboVideoView
+		// .setVideoPath("rtmp://183.62.232.213/fileList/test.flv");//http://hot.vrs.sohu.com/ipad2132022_4629335848402_5343343.m3u8?plat=3---info=v;1280;720;0;h264
 		// // 网络流不能播放。
 		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
 		videoLayout.addView(mMoboVideoView);
@@ -97,9 +99,10 @@ public class TestMoboplayer extends Activity {
 			recordSize = 0;
 		}
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				videoLayout.getWidth(),videoLayout.getHeight());
+				videoLayout.getWidth(), videoLayout.getHeight());
 		mMoboVideoView.setLayoutParams(params);
-		mMoboVideoView.getHolder().setFixedSize(videoLayout.getWidth(),videoLayout.getHeight());
+		mMoboVideoView.getHolder().setFixedSize(videoLayout.getWidth(),
+				videoLayout.getHeight());
 		Logd("141203 - mMoboVideoView - w = " + mMoboVideoView.getWidth()
 				+ " h = " + mMoboVideoView.getHeight());
 	}
@@ -198,8 +201,9 @@ public class TestMoboplayer extends Activity {
 			case R.id.btn_3:
 				Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
 						+ mMoboVideoView.getDecodeMode());
-//				getScreenShot(mMoboVideoView.getCurrentVideoPath(),50*1000,300,200);
-				getScreenShot(mMoboVideoView.getCurrentVideoPath(),350*1000,500,350);
+				// getScreenShot(mMoboVideoView.getCurrentVideoPath(),50*1000,300,200);
+				getScreenShot(mMoboVideoView.getCurrentVideoPath(),
+						mMoboVideoView.getCurrentPosition(), 500, 350);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
@@ -254,15 +258,15 @@ public class TestMoboplayer extends Activity {
 		// 异步方式获取截图
 		ScreenShotLib mScreenShotLib = new ScreenShotLib(this,
 				currentVideoPath, "/sdcard/mobo_video_view/"
-						+ Global.getNameOf(currentVideoPath) + "_a.png", time,
-				width, height);
+						+ Global.getNameOf(currentVideoPath) + time + "_a.png",
+				time, width, height);
 		mScreenShotLib.screenShotAsynchronous(mScreenShotListener);
 		// 异步方式获取截图
 
 		// 同步方式获取截图
 		mScreenShotLib = new ScreenShotLib(this, currentVideoPath,
 				"/sdcard/mobo_video_view/" + Global.getNameOf(currentVideoPath)
-						+ "_s.png", time, width, height);
+						+ time + "_s.png", time - 5 * 1000, width, height);
 		mScreenShotLib.screenShotSynchronous();
 		// 同步方式获取截图
 	}
