@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.clov4r.moboplayer.android.nil.library.Global;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib;
+import com.clov4r.moboplayer.android.nil.library.SoftDecodeSAData;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib.ScreenShotListener;
 import com.clov4r.moboplayer.android.rtmp.MoboVideoView;
 import com.clov4r.moboplayer.android.rtmp.MoboVideoView.OnVideoStateChangedListener;
@@ -47,6 +48,7 @@ public class TestMoboplayer extends Activity {
 	int recordSize = 0;
 	int size[] = { 100, 200, 300, 400 };
 
+	int currentSubSourceIndex = 0;
 	// Control
 	BtnClickListener mBtnClickListener;
 
@@ -67,8 +69,14 @@ public class TestMoboplayer extends Activity {
 	void initVideo() {
 		mMoboVideoView = new MoboVideoView(this, null);
 		mMoboVideoView.loadNativeLibs();
-		mMoboVideoView
-				.setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv");
+		// mMoboVideoView
+		// .setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv");
+		 mMoboVideoView
+		 .setVideoPath("rtmp://183.62.232.213/fileList/test22");
+//		 mMoboVideoView.setIsLive(true);
+//		playAudioOnly(
+//				"/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv",
+//				0);
 		// // /mnt/sdcard/AiproDown/wondergirls-nobody.MP4--
 		// 请改为对应的地址
 		// mMoboVideoView
@@ -269,5 +277,18 @@ public class TestMoboplayer extends Activity {
 						+ time + "_s.png", time - 5 * 1000, width, height);
 		mScreenShotLib.screenShotSynchronous();
 		// 同步方式获取截图
+	}
+
+	/**
+	 * 只播放声音
+	 * 
+	 * @param videoPath
+	 *            视频或音频路径
+	 * @param audioIndex
+	 *            要播放的视频、音频文件的audiotrack的index
+	 */
+	protected void playAudioOnly(String videoPath, int audioIndex) {
+		mMoboVideoView.openSA(videoPath, SoftDecodeSAData.type_audio,
+				currentSubSourceIndex + 1, audioIndex);
 	}
 }
