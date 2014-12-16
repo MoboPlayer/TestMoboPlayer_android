@@ -9,15 +9,19 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni;
+import com.clov4r.moboplayer.android.nil.codec.SubtitleJni;
+import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni.OnBitmapCreatedListener;
 import com.clov4r.moboplayer.android.nil.library.Global;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib;
-import com.clov4r.moboplayer.android.nil.library.SoftDecodeSAData;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib.ScreenShotListener;
+import com.clov4r.moboplayer.android.nil.library.SoftDecodeSAData;
 import com.clov4r.moboplayer.android.rtmp.MoboVideoView;
 import com.clov4r.moboplayer.android.rtmp.MoboVideoView.OnVideoStateChangedListener;
 
@@ -31,7 +35,7 @@ public class TestMoboplayer extends Activity {
 	RelativeLayout videoLayout = null;
 	MoboVideoView mMoboVideoView = null;
 	String path = "/mnt/sdcard/AiproDown/wondergirls-nobody.MP4"; // rtmp://183.62.232.213/fileList/test.flv;/mnt/sdcard/03181751_1684.flv
-
+	final String videoName ="/sdcard/movie/原子弹.flv";
 	// Widget
 	Button btn1;
 	Button btn2;
@@ -44,6 +48,7 @@ public class TestMoboplayer extends Activity {
 	TextView tv1;
 	TextView tv2;
 	SeekBar sb1;
+	ImageView imageview;
 
 	int recordSize = 0;
 	int size[] = { 100, 200, 300, 400 };
@@ -71,12 +76,11 @@ public class TestMoboplayer extends Activity {
 		mMoboVideoView.loadNativeLibs();
 		// mMoboVideoView
 		// .setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv");
-		 mMoboVideoView
-		 .setVideoPath("rtmp://183.62.232.213/fileList/test22");
+		mMoboVideoView.setVideoPath(videoName);//
 //		 mMoboVideoView.setIsLive(true);
-//		playAudioOnly(
-//				"/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv",
-//				0);
+		// playAudioOnly(
+		// "/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv",
+		// 0);
 		// // /mnt/sdcard/AiproDown/wondergirls-nobody.MP4--
 		// 请改为对应的地址
 		// mMoboVideoView
@@ -139,6 +143,7 @@ public class TestMoboplayer extends Activity {
 		btn6.setOnClickListener(mBtnClickListener);
 		btn7.setOnClickListener(mBtnClickListener);
 		videoLayout = (RelativeLayout) findViewById(R.id.video_flayout);
+		 imageview = (ImageView) findViewById(R.id.imageview);
 	}
 
 	public void onDestroy() {
@@ -210,8 +215,15 @@ public class TestMoboplayer extends Activity {
 				Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
 						+ mMoboVideoView.getDecodeMode());
 				// getScreenShot(mMoboVideoView.getCurrentVideoPath(),50*1000,300,200);
-				getScreenShot(mMoboVideoView.getCurrentVideoPath(),
-						mMoboVideoView.getCurrentPosition(), 500, 350);
+//				getScreenShot(mMoboVideoView.getCurrentVideoPath(),
+//						mMoboVideoView.getCurrentPosition(), 500, 350);
+		        String libpath = getFilesDir().getParent()+"/lib/";
+		        String libname = "libffmpeg_armv7_neon.so";
+				SubtitleJni jni=new SubtitleJni();
+				jni.loadFFmpegLibs(libpath,libname);
+				ScreenShotLibJni.getInstance().setOnBitmapCreatedListener(mOnBitmapCreatedListener);
+				ScreenShotLibJni.getInstance().getScreenShot(mMoboVideoView.getCurrentVideoPath(), 50, 200, 200);
+				
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
@@ -247,6 +259,13 @@ public class TestMoboplayer extends Activity {
 			// TODO Auto-generated method stub
 			Toast.makeText(TestMoboplayer.this, "截图完成", Toast.LENGTH_LONG)
 					.show();
+		}
+	};
+
+	OnBitmapCreatedListener mOnBitmapCreatedListener = new OnBitmapCreatedListener() {
+		@Override
+		public void onBitmapCreated(final Bitmap bitmap, String fileName) {
+			imageview.setImageBitmap(bitmap);
 		}
 	};
 
