@@ -35,7 +35,7 @@ public class TestMoboplayer extends Activity {
 	RelativeLayout videoLayout = null;
 	MoboVideoView mMoboVideoView = null;
 	String path = "/mnt/sdcard/AiproDown/wondergirls-nobody.MP4"; // rtmp://183.62.232.213/fileList/test.flv;/mnt/sdcard/03181751_1684.flv
-	final String videoName ="/sdcard/movie/原子弹.flv";
+	final String videoName ="/sdcard/dy/ppkard.mp4";
 	// Widget
 	Button btn1;
 	Button btn2;
@@ -222,8 +222,9 @@ public class TestMoboplayer extends Activity {
 				SubtitleJni jni=new SubtitleJni();
 				jni.loadFFmpegLibs(libpath,libname);
 				ScreenShotLibJni.getInstance().setOnBitmapCreatedListener(mOnBitmapCreatedListener);
-				ScreenShotLibJni.getInstance().getScreenShot(mMoboVideoView.getCurrentVideoPath(), 50, 200, 200);
-				
+				String currentPath=mMoboVideoView.getCurrentVideoPath();
+//				ScreenShotLibJni.getInstance().getScreenShot(currentPath, mMoboVideoView.getCurrentPosition()/1000, 200, 200);
+				ScreenShotLibJni.getInstance().getIDRFrameThumbnail(currentPath, getImageSavePath(currentPath,mMoboVideoView.getCurrentPosition()), 300, 300);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
@@ -264,7 +265,8 @@ public class TestMoboplayer extends Activity {
 
 	OnBitmapCreatedListener mOnBitmapCreatedListener = new OnBitmapCreatedListener() {
 		@Override
-		public void onBitmapCreated(final Bitmap bitmap, String fileName) {
+		public void onBitmapCreated(final Bitmap bitmap, String fileName,
+				String screenshotSavePath) {
 			imageview.setImageBitmap(bitmap);
 		}
 	};
@@ -296,6 +298,11 @@ public class TestMoboplayer extends Activity {
 						+ time + "_s.png", time - 5 * 1000, width, height);
 		mScreenShotLib.screenShotSynchronous();
 		// 同步方式获取截图
+	}
+	
+	String getImageSavePath(String currentVideoPath,long time){
+		return "/sdcard/mobo_video_view/" + Global.getNameOf(currentVideoPath)
+				+ time + "_s.png";
 	}
 
 	/**
