@@ -36,7 +36,7 @@ public class TestMoboplayer extends Activity {
 	RelativeLayout videoLayout = null;
 	MoboVideoView mMoboVideoView = null;
 	String path = "/mnt/sdcard/AiproDown/wondergirls-nobody.MP4"; // rtmp://183.62.232.213/fileList/test.flv;/mnt/sdcard/03181751_1684.flv
-	final String videoName = "/sdcard/dy/ppkard.mp4";///sdcard/Movies/01010020_0006.MP4
+	final String videoName = "/sdcard/Movies/01010020_0006.MP4";// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 	// Widget
 	Button btn1;
 	Button btn2;
@@ -79,18 +79,16 @@ public class TestMoboplayer extends Activity {
 		// .setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv");
 		 mMoboVideoView.setVideoPath(videoName);//
 		// mMoboVideoView.setIsLive(true);
-		// playAudioOnly(
-		// "/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv",
-		// 0);
-		// // /mnt/sdcard/AiproDown/wondergirls-nobody.MP4--
 		// 请改为对应的地址
-//		mMoboVideoView.setVideoPath("rtmp://183.62.232.213/fileList/test.flv");// http://hot.vrs.sohu.com/ipad2132022_4629335848402_5343343.m3u8?plat=3---info=v;1280;720;0;h264
+		// mMoboVideoView.setVideoPath("rtmp://183.62.232.213/fileList/test.flv");//
+		// http://hot.vrs.sohu.com/ipad2132022_4629335848402_5343343.m3u8?plat=3---info=v;1280;720;0;h264
 		// // 网络流不能播放。
 		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
 //		videoLayout.addView(mMoboVideoView);
 		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_hard);
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
+//		playAudioOnly(videoName, 0);
 
 		// if (mMoboVideoView.getCurrentVideoPath() != null)
 		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_hard);
@@ -217,11 +215,12 @@ public class TestMoboplayer extends Activity {
 				ScreenShotLibJni.getInstance().setOnBitmapCreatedListener(
 						mOnBitmapCreatedListener);
 				String currentPath = mMoboVideoView.getCurrentVideoPath();
-				// ScreenShotLibJni.getInstance().getScreenShot(currentPath,
-				// mMoboVideoView.getCurrentPosition()/1000, 200, 200);
-				ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
-						currentPath,
-						"/sdcard/mobo_videoview_test.png", 300, 300);
+//				ScreenShotLibJni.getInstance().getScreenShot(currentPath,
+//						"/sdcard/mobo_videoview_test.png",
+//						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);
+				 ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
+				 currentPath, "/sdcard/mobo_videoview_test.png", 300,
+				 300);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
