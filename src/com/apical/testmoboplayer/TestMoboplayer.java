@@ -215,12 +215,12 @@ public class TestMoboplayer extends Activity {
 				ScreenShotLibJni.getInstance().setOnBitmapCreatedListener(
 						mOnBitmapCreatedListener);
 				String currentPath = mMoboVideoView.getCurrentVideoPath();
-//				ScreenShotLibJni.getInstance().getScreenShot(currentPath,
-//						"/sdcard/mobo_videoview_test.png",
-//						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);
-				 ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
-				 currentPath, "/sdcard/mobo_videoview_test.png", 300,
-				 300);
+				ScreenShotLibJni.getInstance().getScreenShot(currentPath,
+						"/sdcard/mobo_videoview_test.png",
+						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);
+//				 ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
+//				 currentPath, "/sdcard/mobo_videoview_test.png", 300,
+//				 300);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
