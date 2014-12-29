@@ -1,9 +1,16 @@
 package com.apical.testmoboplayer;
 
+import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +24,7 @@ import android.widget.Toast;
 
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni;
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni.OnBitmapCreatedListener;
+import com.clov4r.moboplayer.android.nil.codec.SubtitleJni;
 import com.clov4r.moboplayer.android.nil.library.Global;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib.ScreenShotListener;
@@ -34,7 +42,10 @@ public class TestMoboplayer extends Activity {
 	RelativeLayout videoLayout = null;
 	MoboVideoView mMoboVideoView = null;
 	String path = "/mnt/sdcard/AiproDown/wondergirls-nobody.MP4"; // rtmp://183.62.232.213/fileList/test.flv;/mnt/sdcard/03181751_1684.flv
-	final String videoName = "/sdcard/Movies/01010020_0006.MP4";// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
+	//final String videoName = "/sdcard/Movies/01010020_0006.MP4";// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
+
+	final String videoName = Environment.getExternalStorageDirectory()+"/output_file_low.mkv";
+
 	// Widget
 	Button btn1;
 	Button btn2;
@@ -45,7 +56,7 @@ public class TestMoboplayer extends Activity {
 	Button btn7;
 	Button btnShow;
 	TextView tv1;
-	TextView tv2;
+	TextView tv2 ,player_subtitle_textview;
 	SeekBar sb1;
 	ImageView imageview;
 
@@ -71,27 +82,65 @@ public class TestMoboplayer extends Activity {
 	}
 
 	void initVideo() {
+		
 		mMoboVideoView = new MoboVideoView(this, null);
 		mMoboVideoView.loadNativeLibs();
-		// mMoboVideoView
-		// .setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv");
-		mMoboVideoView.setVideoPath(videoName);//
-		// mMoboVideoView.setIsLive(true);
-		// 请改为对应的地址
-		// mMoboVideoView.setVideoPath("rtmp://183.62.232.213/fileList/test.flv");//
-		// http://hot.vrs.sohu.com/ipad2132022_4629335848402_5343343.m3u8?plat=3---info=v;1280;720;0;h264
-		// // 网络流不能播放。
-		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
-		videoLayout.addView(mMoboVideoView);
-		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_hard);
+		String libpath = getFilesDir().getParent()+"/lib/";
+        String libname = "libffmpeg_armv7_neon.so";
+		SubtitleJni.getInstance().loadFFmpegLibs(libpath,libname);
+		//打开测试字幕，默认放到SD卡根目录
+		String filePath =  Environment.getExternalStorageDirectory()+"/Gone.srt";
+		openSubtitleFile(filePath, 0);
+		mMoboVideoView.setVideoPath(videoName);
+
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
-		// playAudioOnly(videoName, 0);
+//		playAudioOnly(videoName, 0);
+		videoLayout.addView(mMoboVideoView);
 
-		// if (mMoboVideoView.getCurrentVideoPath() != null)
-		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_hard);
+
 	}
 
+	
+	protected boolean isOpenSubtitleFileSuccess;
+    /**
+     * Get subtitle by current time.
+     * @param currentTime: current time.
+     */
+    protected String getSubtitle(int currentTime) {
+        return SubtitleJni.getInstance().getSubtitleByTime(currentTime);
+    }
+
+    /**
+     * set isOpenSubtitleFileSuccess = true if subtitle is exits and open it 
+     * else set isOpenSubtitleFileSuccess = false.
+     * @param filePath : Can be a video file or a subtitle file.
+     * @param index : the index of subtitle stream.
+     */
+    protected void openSubtitleFile(String filePath,int index) {
+    	File file = new File(filePath);
+    	if(!file.exists()) {
+    		isOpenSubtitleFileSuccess = false;
+    		Toast.makeText(this, "字幕文件不存在！", Toast.LENGTH_LONG).show();
+    		return;
+    	}
+        int numOfSubtitle = SubtitleJni.getInstance().isSubtitleExits(filePath);
+        if(numOfSubtitle > 0) {
+            int flag = SubtitleJni.getInstance().openSubtitleFile(filePath, index);
+            if(flag >= 0) {
+                isOpenSubtitleFileSuccess = true;
+                return;
+            }
+        }
+        isOpenSubtitleFileSuccess = false;
+    }
+    /**
+     * May run out of memory if you are not close the subtitle file .
+     */
+    protected void closeSubtitleFile() {
+        SubtitleJni.getInstance().closeSubtitle();
+    }
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.act_test_moboplayer, menu);
@@ -113,8 +162,42 @@ public class TestMoboplayer extends Activity {
 				videoLayout.getHeight());
 		Logd("141203 - mMoboVideoView - w = " + mMoboVideoView.getWidth()
 				+ " h = " + mMoboVideoView.getHeight());
+		
+	}
+	Timer mTimer;
+	protected void startTimer() {
+		if (mTimer != null) {
+			mTimer.cancel();
+		}
+		mTimer = new Timer();
+		mTimer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				mHandler.sendEmptyMessage(0);
+			}
+		}, 0, 1000);
 	}
 
+	protected void cancelTimer() {
+		if (mTimer != null) {
+			mTimer.cancel();
+			mTimer = null;
+		}
+	}
+	Handler mHandler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if(isOpenSubtitleFileSuccess) {
+				String subtitle = getSubtitle( mMoboVideoView.getCurrentPosition());
+				player_subtitle_textview.setText(subtitle==null?"":subtitle);
+			}
+			
+		}
+		
+	};
 	void initMember() {
 		mBtnClickListener = new BtnClickListener();
 	}
@@ -130,6 +213,7 @@ public class TestMoboplayer extends Activity {
 		btn7 = (Button) findViewById(R.id.btn_7);
 		tv1 = (TextView) findViewById(R.id.tv_1);
 		tv2 = (TextView) findViewById(R.id.tv_2);
+		player_subtitle_textview = (TextView) findViewById(R.id.player_subtitle_textview);
 		sb1 = (SeekBar) findViewById(R.id.sb_1);
 		btn1.setOnClickListener(mBtnClickListener);
 		btn2.setOnClickListener(mBtnClickListener);
@@ -145,6 +229,8 @@ public class TestMoboplayer extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		mMoboVideoView.stop();
+		cancelTimer();
+		closeSubtitleFile();
 		Log.d("Test", "14112911 - onDestroy");
 	};
 
@@ -161,6 +247,7 @@ public class TestMoboplayer extends Activity {
 
 		@Override
 		public void afterChanged(String arg0) {
+			startTimer();
 			mMoboVideoView.start();
 			tv1.setText("总时间：" + mMoboVideoView.getDuration() / 1000 + "");
 			tv2.setText("当前时间：" + mMoboVideoView.getCurrentPosition() / 1000
@@ -168,6 +255,7 @@ public class TestMoboplayer extends Activity {
 			sb1.setMax(mMoboVideoView.getDuration());
 			Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
 					+ mMoboVideoView.getDecodeMode());
+			
 		}
 
 		@Override
@@ -185,6 +273,7 @@ public class TestMoboplayer extends Activity {
 		public void onPlayFinished(String arg0) {
 			// TODO Auto-generated method stub
 			// 此处为播放完成回调方法
+			cancelTimer();
 		}
 	};
 
