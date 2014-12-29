@@ -15,9 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.clov4r.moboplayer.android.nil.codec.BaseJNILib;
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni;
-import com.clov4r.moboplayer.android.nil.codec.SubtitleJni;
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni.OnBitmapCreatedListener;
 import com.clov4r.moboplayer.android.nil.library.Global;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib;
@@ -77,18 +75,18 @@ public class TestMoboplayer extends Activity {
 		mMoboVideoView.loadNativeLibs();
 		// mMoboVideoView
 		// .setVideoPath("/sdcard/Movies/[奥黛丽·赫本系列01：罗马假日].Roman.Holiday.1953.DVDRiP.X264.2Audio.AAC.HALFCD-NORM.Christian.mkv");
-		 mMoboVideoView.setVideoPath(videoName);//
+		mMoboVideoView.setVideoPath(videoName);//
 		// mMoboVideoView.setIsLive(true);
 		// 请改为对应的地址
 		// mMoboVideoView.setVideoPath("rtmp://183.62.232.213/fileList/test.flv");//
 		// http://hot.vrs.sohu.com/ipad2132022_4629335848402_5343343.m3u8?plat=3---info=v;1280;720;0;h264
 		// // 网络流不能播放。
 		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
-//		videoLayout.addView(mMoboVideoView);
+		videoLayout.addView(mMoboVideoView);
 		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_hard);
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
-//		playAudioOnly(videoName, 0);
+		// playAudioOnly(videoName, 0);
 
 		// if (mMoboVideoView.getCurrentVideoPath() != null)
 		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_hard);
@@ -180,7 +178,7 @@ public class TestMoboplayer extends Activity {
 
 		@Override
 		public void playFailed(String arg0, int arg1) {
-			Log.d("Test", "141029 - arg0 = " + arg0);
+			Toast.makeText(TestMoboplayer.this, "播放失败", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -218,9 +216,9 @@ public class TestMoboplayer extends Activity {
 				ScreenShotLibJni.getInstance().getScreenShot(currentPath,
 						"/sdcard/mobo_videoview_test.png",
 						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);
-//				 ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
-//				 currentPath, "/sdcard/mobo_videoview_test.png", 300,
-//				 300);
+				// ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
+				// currentPath, "/sdcard/mobo_videoview_test.png", 300,
+				// 300);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
@@ -264,6 +262,12 @@ public class TestMoboplayer extends Activity {
 		public void onBitmapCreated(final Bitmap bitmap, String fileName,
 				String screenshotSavePath) {
 			imageview.setImageBitmap(bitmap);
+		}
+
+		@Override
+		public void onBitmapCreatedFailed(String videoPath) {
+			// TODO Auto-generated method stub
+			Toast.makeText(TestMoboplayer.this, "截图失败", Toast.LENGTH_SHORT).show();
 		}
 	};
 
