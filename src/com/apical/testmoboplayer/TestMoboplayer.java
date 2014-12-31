@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni;
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni.OnBitmapCreatedListener;
 import com.clov4r.moboplayer.android.nil.codec.SubtitleJni;
+import com.clov4r.moboplayer.android.nil.library.Constant;
 import com.clov4r.moboplayer.android.nil.library.Global;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib.ScreenShotListener;
@@ -42,9 +43,11 @@ public class TestMoboplayer extends Activity {
 	RelativeLayout videoLayout = null;
 	MoboVideoView mMoboVideoView = null;
 	String path = "/mnt/sdcard/AiproDown/wondergirls-nobody.MP4"; // rtmp://183.62.232.213/fileList/test.flv;/mnt/sdcard/03181751_1684.flv
-	//final String videoName = "/sdcard/Movies/01010020_0006.MP4";// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
+	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
+	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = Environment.getExternalStorageDirectory()+"/output_file_low.mkv";
+	final String videoName = Environment.getExternalStorageDirectory()
+			+ "/output_file_low.mkv";
 
 	// Widget
 	Button btn1;
@@ -56,7 +59,7 @@ public class TestMoboplayer extends Activity {
 	Button btn7;
 	Button btnShow;
 	TextView tv1;
-	TextView tv2 ,player_subtitle_textview;
+	TextView tv2, player_subtitle_textview;
 	SeekBar sb1;
 	ImageView imageview;
 
@@ -82,65 +85,72 @@ public class TestMoboplayer extends Activity {
 	}
 
 	void initVideo() {
-		
+
 		mMoboVideoView = new MoboVideoView(this, null);
 		mMoboVideoView.loadNativeLibs();
-		String libpath = getFilesDir().getParent()+"/lib/";
-        String libname = "libffmpeg_armv7_neon.so";
-		SubtitleJni.getInstance().loadFFmpegLibs(libpath,libname);
-		//打开测试字幕，默认放到SD卡根目录
-		String filePath =  Environment.getExternalStorageDirectory()+"/Gone.srt";
+		String libpath = getFilesDir().getParent() + "/lib/";
+		String libname = "libffmpeg_armv7_neon.so";
+		SubtitleJni.getInstance().loadFFmpegLibs(libpath, libname);
+		// 打开测试字幕，默认放到SD卡根目录
+		String filePath = Environment.getExternalStorageDirectory()
+				+ "/Gone.srt";
 		openSubtitleFile(filePath, 0);
 		mMoboVideoView.setVideoPath(videoName);
 
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
-//		playAudioOnly(videoName, 0);
+		// playAudioOnly(videoName, 0);
 		videoLayout.addView(mMoboVideoView);
-
 
 	}
 
-	
 	protected boolean isOpenSubtitleFileSuccess;
-    /**
-     * Get subtitle by current time.
-     * @param currentTime: current time.
-     */
-    protected String getSubtitle(int currentTime) {
-        return SubtitleJni.getInstance().getSubtitleByTime(currentTime);
-    }
 
-    /**
-     * set isOpenSubtitleFileSuccess = true if subtitle is exits and open it 
-     * else set isOpenSubtitleFileSuccess = false.
-     * @param filePath : Can be a video file or a subtitle file.
-     * @param index : the index of subtitle stream.
-     */
-    protected void openSubtitleFile(String filePath,int index) {
-    	File file = new File(filePath);
-    	if(!file.exists()) {
-    		isOpenSubtitleFileSuccess = false;
-    		Toast.makeText(this, "字幕文件不存在！", Toast.LENGTH_LONG).show();
-    		return;
-    	}
-        int numOfSubtitle = SubtitleJni.getInstance().isSubtitleExits(filePath);
-        if(numOfSubtitle > 0) {
-            int flag = SubtitleJni.getInstance().openSubtitleFile(filePath, index);
-            if(flag >= 0) {
-                isOpenSubtitleFileSuccess = true;
-                return;
-            }
-        }
-        isOpenSubtitleFileSuccess = false;
-    }
-    /**
-     * May run out of memory if you are not close the subtitle file .
-     */
-    protected void closeSubtitleFile() {
-        SubtitleJni.getInstance().closeSubtitle();
-    }
-	
+	/**
+	 * Get subtitle by current time.
+	 * 
+	 * @param currentTime
+	 *            : current time.
+	 */
+	protected String getSubtitle(int currentTime) {
+		return SubtitleJni.getInstance().getSubtitleByTime(currentTime);
+	}
+
+	/**
+	 * set isOpenSubtitleFileSuccess = true if subtitle is exits and open it
+	 * else set isOpenSubtitleFileSuccess = false.
+	 * 
+	 * @param filePath
+	 *            : Can be a video file or a subtitle file.
+	 * @param index
+	 *            : the index of subtitle stream.
+	 */
+	protected void openSubtitleFile(String filePath, int index) {
+		File file = new File(filePath);
+		if (!file.exists()) {
+			isOpenSubtitleFileSuccess = false;
+			Toast.makeText(this, "字幕文件不存在！", Toast.LENGTH_LONG).show();
+			return;
+		}
+		int numOfSubtitle = SubtitleJni.getInstance().isSubtitleExits(filePath);
+		if (numOfSubtitle > 0) {
+			int flag = SubtitleJni.getInstance().openSubtitleFile(filePath,
+					index);
+			if (flag >= 0) {
+				isOpenSubtitleFileSuccess = true;
+				return;
+			}
+		}
+		isOpenSubtitleFileSuccess = false;
+	}
+
+	/**
+	 * May run out of memory if you are not close the subtitle file .
+	 */
+	protected void closeSubtitleFile() {
+		SubtitleJni.getInstance().closeSubtitle();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.act_test_moboplayer, menu);
@@ -162,9 +172,11 @@ public class TestMoboplayer extends Activity {
 				videoLayout.getHeight());
 		Logd("141203 - mMoboVideoView - w = " + mMoboVideoView.getWidth()
 				+ " h = " + mMoboVideoView.getHeight());
-		
+
 	}
+
 	Timer mTimer;
+
 	protected void startTimer() {
 		if (mTimer != null) {
 			mTimer.cancel();
@@ -185,19 +197,23 @@ public class TestMoboplayer extends Activity {
 			mTimer = null;
 		}
 	}
-	Handler mHandler = new Handler(){
+
+	Handler mHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			if(isOpenSubtitleFileSuccess) {
-				String subtitle = getSubtitle( mMoboVideoView.getCurrentPosition());
-				player_subtitle_textview.setText(subtitle==null?"":subtitle);
+			if (isOpenSubtitleFileSuccess) {
+				String subtitle = getSubtitle(mMoboVideoView
+						.getCurrentPosition());
+				player_subtitle_textview.setText(subtitle == null ? ""
+						: subtitle);
 			}
-			
+
 		}
-		
+
 	};
+
 	void initMember() {
 		mBtnClickListener = new BtnClickListener();
 	}
@@ -255,7 +271,7 @@ public class TestMoboplayer extends Activity {
 			sb1.setMax(mMoboVideoView.getDuration());
 			Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
 					+ mMoboVideoView.getDecodeMode());
-			
+
 		}
 
 		@Override
@@ -266,7 +282,13 @@ public class TestMoboplayer extends Activity {
 
 		@Override
 		public void playFailed(String arg0, int arg1) {
-			Toast.makeText(TestMoboplayer.this, "播放失败", Toast.LENGTH_SHORT).show();
+			if (arg1 == Constant.decode_mode_soft
+					|| arg1 == Constant.decode_mode_mediacodec)
+				Toast.makeText(TestMoboplayer.this, "播放失败", Toast.LENGTH_SHORT)
+						.show();
+			else
+				Toast.makeText(TestMoboplayer.this, "硬解失败,正在转软解", Toast.LENGTH_SHORT)
+				.show();
 		}
 
 		@Override
@@ -356,7 +378,8 @@ public class TestMoboplayer extends Activity {
 		@Override
 		public void onBitmapCreatedFailed(String videoPath) {
 			// TODO Auto-generated method stub
-			Toast.makeText(TestMoboplayer.this, "截图失败", Toast.LENGTH_SHORT).show();
+			Toast.makeText(TestMoboplayer.this, "截图失败", Toast.LENGTH_SHORT)
+					.show();
 		}
 	};
 
