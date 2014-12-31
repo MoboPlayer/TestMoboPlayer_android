@@ -98,7 +98,6 @@ public class TestMoboplayer extends Activity {
 //		playAudioOnly(videoName, 0);
 		videoLayout.addView(mMoboVideoView);
 
-		
 
 	}
 
@@ -267,7 +266,7 @@ public class TestMoboplayer extends Activity {
 
 		@Override
 		public void playFailed(String arg0, int arg1) {
-			Log.d("Test", "141029 - arg0 = " + arg0);
+			Toast.makeText(TestMoboplayer.this, "播放失败", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -306,9 +305,9 @@ public class TestMoboplayer extends Activity {
 				ScreenShotLibJni.getInstance().getScreenShot(currentPath,
 						"/sdcard/mobo_videoview_test.png",
 						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);
-//				 ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
-//				 currentPath, "/sdcard/mobo_videoview_test.png", 300,
-//				 300);
+				// ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
+				// currentPath, "/sdcard/mobo_videoview_test.png", 300,
+				// 300);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
@@ -352,6 +351,12 @@ public class TestMoboplayer extends Activity {
 		public void onBitmapCreated(final Bitmap bitmap, String fileName,
 				String screenshotSavePath) {
 			imageview.setImageBitmap(bitmap);
+		}
+
+		@Override
+		public void onBitmapCreatedFailed(String videoPath) {
+			// TODO Auto-generated method stub
+			Toast.makeText(TestMoboplayer.this, "截图失败", Toast.LENGTH_SHORT).show();
 		}
 	};
 
