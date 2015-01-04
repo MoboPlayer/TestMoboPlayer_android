@@ -46,8 +46,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = Environment.getExternalStorageDirectory()
-			+ "/output_file_low.mkv";
+	final String videoName = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";
 
 	// Widget
 	Button btn1;
