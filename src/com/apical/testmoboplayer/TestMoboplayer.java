@@ -286,8 +286,8 @@ public class TestMoboplayer extends Activity {
 				Toast.makeText(TestMoboplayer.this, "播放失败", Toast.LENGTH_SHORT)
 						.show();
 			else
-				Toast.makeText(TestMoboplayer.this, "硬解失败,正在转软解", Toast.LENGTH_SHORT)
-				.show();
+				Toast.makeText(TestMoboplayer.this, "硬解失败,正在转软解",
+						Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -320,15 +320,17 @@ public class TestMoboplayer extends Activity {
 			case R.id.btn_3:
 				Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
 						+ mMoboVideoView.getDecodeMode());
-				ScreenShotLibJni.getInstance().setOnBitmapCreatedListener(
-						mOnBitmapCreatedListener);
-				String currentPath = mMoboVideoView.getCurrentVideoPath();
-				ScreenShotLibJni.getInstance().getScreenShot(currentPath,
-						"/sdcard/mobo_videoview_test.png",
+				// ScreenShotLibJni.getInstance().setOnBitmapCreatedListener(
+				// mOnBitmapCreatedListener);
+				final String currentPath = mMoboVideoView.getCurrentVideoPath();
+				Bitmap bitmap = ScreenShotLibJni.getInstance().getScreenShot(
+						currentPath, "/sdcard/mobo_videoview_test.png",
 						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);
+				// Bitmap bitmap=
 				// ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
 				// currentPath, "/sdcard/mobo_videoview_test.png", 300,
 				// 300);
+				imageview.setImageBitmap(bitmap);
 				break;
 			case R.id.btn_4:
 				mMoboVideoView.pause();
