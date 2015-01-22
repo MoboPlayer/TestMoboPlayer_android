@@ -46,7 +46,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov";
+	final String videoName = "/sdcard/Movies/03181751_1684.MP4";//月亮之下.avi rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
 	Button btn1;
@@ -93,7 +93,8 @@ public class TestMoboplayer extends Activity {
 		// 打开测试字幕，默认放到SD卡根目录
 		String filePath = Environment.getExternalStorageDirectory()
 				+ "/Gone.srt";
-		openSubtitleFile(filePath, 0);
+		// openSubtitleFile(filePath, 0);
+		openSubtitleFile(videoName, 0);
 		mMoboVideoView.setVideoPath(videoName);
 
 		mMoboVideoView
@@ -112,7 +113,7 @@ public class TestMoboplayer extends Activity {
 	 *            : current time.
 	 */
 	protected String getSubtitle(int currentTime) {
-		return SubtitleJni.getInstance().getSubtitleByTime(currentTime);
+		return SubtitleJni.getInstance().getSubtitleByTime_2(currentTime);
 	}
 
 	/**
@@ -133,7 +134,7 @@ public class TestMoboplayer extends Activity {
 		}
 		int numOfSubtitle = SubtitleJni.getInstance().isSubtitleExits(filePath);
 		if (numOfSubtitle > 0) {
-			int flag = SubtitleJni.getInstance().openSubtitleFile(filePath,
+			int flag = SubtitleJni.getInstance().openSubtitleFile_2(filePath,
 					index);
 			if (flag >= 0) {
 				isOpenSubtitleFileSuccess = true;
@@ -147,7 +148,7 @@ public class TestMoboplayer extends Activity {
 	 * May run out of memory if you are not close the subtitle file .
 	 */
 	protected void closeSubtitleFile() {
-		SubtitleJni.getInstance().closeSubtitle();
+		SubtitleJni.getInstance().closeSubtitle_2();
 	}
 
 	@Override
@@ -187,7 +188,7 @@ public class TestMoboplayer extends Activity {
 			public void run() {
 				mHandler.sendEmptyMessage(0);
 			}
-		}, 0, 1000);
+		}, 0, 300);
 	}
 
 	protected void cancelTimer() {
@@ -203,8 +204,11 @@ public class TestMoboplayer extends Activity {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			if (isOpenSubtitleFileSuccess) {
+				long time1 = System.currentTimeMillis();
 				String subtitle = getSubtitle(mMoboVideoView
 						.getCurrentPosition());
+				long time2 = System.currentTimeMillis();
+				Log.e("testmobo", "subtitle_decode_duration=" + (time2 - time1));
 				player_subtitle_textview.setText(subtitle == null ? ""
 						: subtitle);
 			}
@@ -325,7 +329,7 @@ public class TestMoboplayer extends Activity {
 				final String currentPath = mMoboVideoView.getCurrentVideoPath();
 				Bitmap bitmap = ScreenShotLibJni.getInstance().getScreenShot(
 						currentPath, "/sdcard/mobo_videoview_test.png",
-						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);
+						mMoboVideoView.getCurrentPosition() / 1000, 200, 200);//
 				// Bitmap bitmap=
 				// ScreenShotLibJni.getInstance().getIDRFrameThumbnail(
 				// currentPath, "/sdcard/mobo_videoview_test.png", 300,
