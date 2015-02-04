@@ -85,6 +85,12 @@
             android:layout_height="wrap_content"
             android:text="启动播放" />
 
+        <Button
+            android:id="@+id/btn_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下载" />
+        
         <SeekBar
             android:id="@+id/sb_1"
             android:layout_width="match_parent"

@@ -5,12 +5,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,10 +46,12 @@ public class TestMoboplayer extends Activity {
 	RelativeLayout videoLayout = null;
 	MoboVideoView mMoboVideoView = null;
 	String path = "/mnt/sdcard/AiproDown/wondergirls-nobody.MP4"; // rtmp://183.62.232.213/fileList/test.flv;/mnt/sdcard/03181751_1684.flv
-	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
+	final String videoName = "/sdcard/Movies/03181751_1684.MP4";//liudehua.avi
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "/sdcard/Movies/03181751_1684.MP4";//月亮之下.avi rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
+	// final String videoName =
+	// "http://27.221.44.43/67732E5CB143B83379CBF423D1/0300010E0054C96DBA3EF603BAF2B16135A553-86F1-7270-8753-BBB5274B597B.flv";//月亮之下.avi
+	// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
 	Button btn1;
@@ -84,7 +89,6 @@ public class TestMoboplayer extends Activity {
 	}
 
 	void initVideo() {
-
 		mMoboVideoView = new MoboVideoView(this, null);
 		mMoboVideoView.loadNativeLibs();
 		String libpath = getFilesDir().getParent() + "/lib/";
@@ -187,9 +191,33 @@ public class TestMoboplayer extends Activity {
 			@Override
 			public void run() {
 				mHandler.sendEmptyMessage(0);
+
+//				String subtitle = getSubtitle(mMoboVideoView
+//						.getCurrentPosition());
+//				Log.e("testmobo", "current subtitle is:-->"+subtitle);
 			}
 		}, 0, 300);
 	}
+	
+	Thread mThread=new Thread(){
+		@Override
+		public void run(){
+			int timeBegin = 0;
+			int timeEnd = mMoboVideoView.getDuration();
+			for(int t = timeBegin ; t < timeEnd; t += 1000)
+			{
+				Log.e("testMobo", "150204 - t =" + t + "subtitle = " + getSubtitle(t));
+				try {
+					sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}
+	};
 
 	protected void cancelTimer() {
 		if (mTimer != null) {
@@ -212,6 +240,7 @@ public class TestMoboplayer extends Activity {
 				player_subtitle_textview.setText(subtitle == null ? ""
 						: subtitle);
 			}
+			sb1.setProgress(mMoboVideoView.getCurrentPosition() / 1000);
 
 		}
 
@@ -243,6 +272,7 @@ public class TestMoboplayer extends Activity {
 		btn7.setOnClickListener(mBtnClickListener);
 		videoLayout = (RelativeLayout) findViewById(R.id.video_flayout);
 		imageview = (ImageView) findViewById(R.id.imageview);
+		sb1.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 	}
 
 	public void onDestroy() {
@@ -254,12 +284,33 @@ public class TestMoboplayer extends Activity {
 	};
 
 	public boolean onTouchEvent(android.view.MotionEvent event) {
-		sb1.setProgress(mMoboVideoView.getCurrentPosition());
+		sb1.setProgress(mMoboVideoView.getCurrentPosition() / 1000);
 		tv2.setText("当前时间：" + mMoboVideoView.getCurrentPosition() / 1000 + "");
 
 		Logd("141127 - videoLayout.width = " + videoLayout.getWidth()
 				+ " videoLayout.height = " + videoLayout.getHeight());
 		return false;
+	};
+
+	OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
+
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+			mMoboVideoView.seekTo(seekBar.getProgress());
+		}
 	};
 
 	OnVideoStateChangedListener mOnVideoStateChangedListener = new OnVideoStateChangedListener() {
@@ -271,10 +322,11 @@ public class TestMoboplayer extends Activity {
 			tv1.setText("总时间：" + mMoboVideoView.getDuration() / 1000 + "");
 			tv2.setText("当前时间：" + mMoboVideoView.getCurrentPosition() / 1000
 					+ "");
-			sb1.setMax(mMoboVideoView.getDuration());
+			sb1.setMax(mMoboVideoView.getDuration() / 1000);
 			Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
 					+ mMoboVideoView.getDecodeMode());
 
+			mThread.start();
 		}
 
 		@Override
