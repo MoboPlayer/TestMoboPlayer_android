@@ -85,11 +85,6 @@
             android:layout_height="wrap_content"
             android:text="启动播放" />
 
-        <SeekBar
-            android:id="@+id/sb_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        
         <ImageView 
             android:id="@+id/imageview"
             android:layout_width="match_parent"
@@ -107,4 +102,12 @@
                  android:textColor="#ff0000"
                  android:textSize="19sp"
                  android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/sb_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+             />
+        
 </RelativeLayout>

@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,8 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "/sdcard/Movies/03181751_1684.MP4";//月亮之下.avi rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
+	final String videoName = "/sdcard/Movies/liudehua.avi";// 月亮之下.avi
+														// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
 	Button btn1;
@@ -188,7 +190,7 @@ public class TestMoboplayer extends Activity {
 			public void run() {
 				mHandler.sendEmptyMessage(0);
 			}
-		}, 0, 300);
+		}, 0, 1000);
 	}
 
 	protected void cancelTimer() {
@@ -198,19 +200,33 @@ public class TestMoboplayer extends Activity {
 		}
 	}
 
+	final int msg_show_subtitle = 0;
+	final int msg_play_finished = 111;
 	Handler mHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			if (isOpenSubtitleFileSuccess) {
-				long time1 = System.currentTimeMillis();
-				String subtitle = getSubtitle(mMoboVideoView
-						.getCurrentPosition());
-				long time2 = System.currentTimeMillis();
-				Log.e("testmobo", "subtitle_decode_duration=" + (time2 - time1));
-				player_subtitle_textview.setText(subtitle == null ? ""
-						: subtitle);
+			switch (msg.what) {
+			case msg_show_subtitle:
+				if (isOpenSubtitleFileSuccess) {
+					// long time1 = System.currentTimeMillis();
+					int time = mMoboVideoView.getCurrentPosition();
+					String subtitle = getSubtitle(time);
+					// long time2 = System.currentTimeMillis();
+					Log.e("testmobo", "time1=" + time + "---subtitle="
+							+ subtitle);
+					player_subtitle_textview.setText(subtitle == null ? ""
+							: subtitle);
+				}
+
+				break;
+
+			case msg_play_finished:
+				Toast.makeText(TestMoboplayer.this,
+						"mobovideoview--play finished", Toast.LENGTH_SHORT)
+						.show();
+				break;
 			}
 
 		}
@@ -234,6 +250,7 @@ public class TestMoboplayer extends Activity {
 		tv2 = (TextView) findViewById(R.id.tv_2);
 		player_subtitle_textview = (TextView) findViewById(R.id.player_subtitle_textview);
 		sb1 = (SeekBar) findViewById(R.id.sb_1);
+		sb1.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 		btn1.setOnClickListener(mBtnClickListener);
 		btn2.setOnClickListener(mBtnClickListener);
 		btn3.setOnClickListener(mBtnClickListener);
@@ -249,7 +266,8 @@ public class TestMoboplayer extends Activity {
 		super.onDestroy();
 		mMoboVideoView.stop();
 		cancelTimer();
-		closeSubtitleFile();
+		if (isOpenSubtitleFileSuccess)
+			closeSubtitleFile();
 		Log.d("Test", "14112911 - onDestroy");
 	};
 
@@ -260,6 +278,28 @@ public class TestMoboplayer extends Activity {
 		Logd("141127 - videoLayout.width = " + videoLayout.getWidth()
 				+ " videoLayout.height = " + videoLayout.getHeight());
 		return false;
+	};
+
+	OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
+
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+			mMoboVideoView.seekTo(seekBar.getProgress() / 1000);
+		}
 	};
 
 	OnVideoStateChangedListener mOnVideoStateChangedListener = new OnVideoStateChangedListener() {
@@ -298,6 +338,7 @@ public class TestMoboplayer extends Activity {
 		public void onPlayFinished(String arg0) {
 			// TODO Auto-generated method stub
 			// 此处为播放完成回调方法
+			mHandler.sendEmptyMessage(msg_play_finished);
 			cancelTimer();
 		}
 	};

@@ -315,6 +315,12 @@ public class Moboplayer1107 extends MoboBasePlayer {
 			// TODO Auto-generated method stub
 
 		}
+
+		@Override
+		public void onBufferProgressChanged(int arg0, int arg1) {
+			// TODO Auto-generated method stub
+			
+		}
 	};
 
 	protected void start() {
