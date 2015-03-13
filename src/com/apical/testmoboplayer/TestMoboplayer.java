@@ -47,8 +47,8 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "/sdcard/Movies/liudehua.avi";// 月亮之下.avi
-														// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
+	final String videoName = "/sdcard/Movies/月亮之下.avi";// liudehua.avi
+															// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
 	Button btn1;
@@ -209,6 +209,7 @@ public class TestMoboplayer extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case msg_show_subtitle:
+				sb1.setProgress(mMoboVideoView.getCurrentPosition());
 				if (isOpenSubtitleFileSuccess) {
 					// long time1 = System.currentTimeMillis();
 					int time = mMoboVideoView.getCurrentPosition();
@@ -313,7 +314,8 @@ public class TestMoboplayer extends Activity {
 					+ "");
 			sb1.setMax(mMoboVideoView.getDuration());
 			Log.d("Test", "141029 - mMoboVideoView.getDecodeMode() = "
-					+ mMoboVideoView.getDecodeMode());
+					+ mMoboVideoView.getDecodeMode() + "----duration="
+					+ mMoboVideoView.getDuration());
 
 		}
 
@@ -339,6 +341,7 @@ public class TestMoboplayer extends Activity {
 			// TODO Auto-generated method stub
 			// 此处为播放完成回调方法
 			mHandler.sendEmptyMessage(msg_play_finished);
+			mMoboVideoView.stop();
 			cancelTimer();
 		}
 	};
