@@ -47,7 +47,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "/sdcard/Movies/月亮之下.avi";// liudehua.avi
+	final String videoName = "/sdcard/Movies/liudehua.avi";// 郑源_一万个理由.wmv
 															// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
@@ -98,6 +98,7 @@ public class TestMoboplayer extends Activity {
 		// openSubtitleFile(filePath, 0);
 		openSubtitleFile(videoName, 0);
 		mMoboVideoView.setVideoPath(videoName);
+//		mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
 
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
