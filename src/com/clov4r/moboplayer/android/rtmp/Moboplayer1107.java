@@ -311,13 +311,13 @@ public class Moboplayer1107 extends MoboBasePlayer {
 		}
 
 		@Override
-		public void onBufferFailed(int failCode) {
+		public void onBufferProgressChanged(int arg0, int arg1) {
 			// TODO Auto-generated method stub
-
+			
 		}
 
 		@Override
-		public void onBufferProgressChanged(int arg0, int arg1) {
+		public void onBufferFailed(String arg0) {
 			// TODO Auto-generated method stub
 			
 		}

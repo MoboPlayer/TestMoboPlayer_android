@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni;
 import com.clov4r.moboplayer.android.nil.codec.ScreenShotLibJni.OnBitmapCreatedListener;
 import com.clov4r.moboplayer.android.nil.codec.SubtitleJni;
+import com.clov4r.moboplayer.android.nil.library.BufferListener;
 import com.clov4r.moboplayer.android.nil.library.Constant;
 import com.clov4r.moboplayer.android.nil.library.Global;
 import com.clov4r.moboplayer.android.nil.library.ScreenShotLib;
@@ -47,7 +48,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "/sdcard/Movies/liudehua.avi";// 郑源_一万个理由.wmv
+	final String videoName = "http://27.221.44.43/697470187794C8429218745A08/0300010E0054C96DBA3EF603BAF2B16135A553-86F1-7270-8753-BBB5274B597B.flv";// 郑源_一万个理由.wmv /sdcard/Movies/liudehua.avi
 															// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
@@ -97,15 +98,44 @@ public class TestMoboplayer extends Activity {
 				+ "/Gone.srt";
 		// openSubtitleFile(filePath, 0);
 		openSubtitleFile(videoName, 0);
+		mMoboVideoView.setBufferedTime(5);// 设置缓冲时间
+		mMoboVideoView.setBufferListener(mBufferListener);// 设置缓冲回调接口
 		mMoboVideoView.setVideoPath(videoName);
 //		mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
-
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
 		// playAudioOnly(videoName, 0);
 		videoLayout.addView(mMoboVideoView);
 
 	}
+
+	BufferListener mBufferListener = new BufferListener() {
+		@Override
+		public void onBufferStart() {
+			// TODO Auto-generated method stub
+			mMoboVideoView.pause();
+		}
+
+		@Override
+		public void onBufferEnd() {
+			// TODO Auto-generated method stub
+			mMoboVideoView.start();
+		}
+
+		@Override
+		public void onBufferFailed(String msg) {
+			// TODO Auto-generated method stub
+			Log.e("MainActivity", msg);
+		}
+
+		@Override
+		public void onBufferProgressChanged(int current,int duration) {
+			// TODO Auto-generated method stub
+			if(sb1.getMax()<current)
+				sb1.setMax(duration);
+			sb1.setSecondaryProgress(current);
+		}
+	};
 
 	protected boolean isOpenSubtitleFileSuccess;
 
@@ -310,6 +340,7 @@ public class TestMoboplayer extends Activity {
 		public void afterChanged(String arg0) {
 			startTimer();
 			mMoboVideoView.start();
+			mMoboVideoView.seekTo(1);
 			tv1.setText("总时间：" + mMoboVideoView.getDuration() / 1000 + "");
 			tv2.setText("当前时间：" + mMoboVideoView.getCurrentPosition() / 1000
 					+ "");
