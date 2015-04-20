@@ -48,7 +48,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "http://27.221.44.43/677356E24EF3A8329818F13563/0300010E0054C96DBA3EF603BAF2B16135A553-86F1-7270-8753-BBB5274B597B.flv";// 郑源_一万个理由.wmv 
+	final String videoName = "http://119.167.128.79/65723BB4B3C4682EC7A72624F3/0300010E0054C96DBA3EF603BAF2B16135A553-86F1-7270-8753-BBB5274B597B.flv";// 郑源_一万个理由.wmv 
 															// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
@@ -297,6 +297,7 @@ public class TestMoboplayer extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		mMoboVideoView.stop();
+		mMoboVideoView.stopBuffering();
 		cancelTimer();
 		if (isOpenSubtitleFileSuccess)
 			closeSubtitleFile();

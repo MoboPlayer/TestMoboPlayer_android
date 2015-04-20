@@ -412,8 +412,8 @@ public class Moboplayer1107 extends MoboBasePlayer {
 		if (mMoboVideoView.isPlaying()) {
 			currentPosition = mMoboVideoView.getCurrentPosition() / 1000;
 			int decodeMode = mMoboVideoView.getDecodeMode();
-			int bufferedTime = mMoboVideoView.getBufferTime();
-			player_seek_bar.setSecondaryProgress(bufferedTime);
+//			int bufferedTime = mMoboVideoView.getBufferTime();
+//			player_seek_bar.setSecondaryProgress(bufferedTime);
 			player_seek_bar.setProgress(currentPosition);
 			// if (currentPosition >= duration - 1) {//�ŵ�onPlayFinished()�������
 			// playIndexOf(currentVideoIndex + 1);
