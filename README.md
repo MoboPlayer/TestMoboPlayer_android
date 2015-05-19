@@ -5,4 +5,4 @@ TestMoboPlayer_android
   
   2，下载MoboVideoViewLibrary工程并导入eclipse。
   
-  3，将MoboVideoViewLibrary作为library工程add library到此工程
+  3，将MoboVideoViewLibrary作为library工程add到此工程(TestMoboPlayer_android)
