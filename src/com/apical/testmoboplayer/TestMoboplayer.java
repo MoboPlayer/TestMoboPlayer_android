@@ -48,7 +48,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "http://119.167.128.79/65723BB4B3C4682EC7A72624F3/0300010E0054C96DBA3EF603BAF2B16135A553-86F1-7270-8753-BBB5274B597B.flv";// 郑源_一万个理由.wmv 
+	final String videoName = "rtsp://192.168.42.1/live";// 郑源_一万个理由.wmv  rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 															// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
@@ -98,7 +98,9 @@ public class TestMoboplayer extends Activity {
 				+ "/Gone.srt";
 		// openSubtitleFile(filePath, 0);
 		openSubtitleFile(videoName, 0);
-		mMoboVideoView.setBufferedTime(5);// 设置缓冲时间
+		mMoboVideoView.setIsLive(true);
+		mMoboVideoView.setBufferedTime(1);// 设置缓冲时间
+		mMoboVideoView.setSaveBufferInfoOrNot(false);
 		mMoboVideoView.setBufferListener(mBufferListener);// 设置缓冲回调接口
 		mMoboVideoView.setVideoPath(videoName);
 //		mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
