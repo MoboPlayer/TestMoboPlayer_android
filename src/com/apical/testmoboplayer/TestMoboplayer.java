@@ -48,8 +48,9 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "rtsp://192.168.42.1/live";// 郑源_一万个理由.wmv  rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
-															// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
+	final String videoName = "rtsp://192.168.42.1/live";// 郑源_一万个理由.wmv
+														// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
+														// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
 
 	// Widget
 	Button btn1;
@@ -64,6 +65,7 @@ public class TestMoboplayer extends Activity {
 	TextView tv2, player_subtitle_textview;
 	SeekBar sb1;
 	ImageView imageview;
+	boolean isActivityPaused = false;
 
 	int recordSize = 0;
 	int size[] = { 100, 200, 300, 400 };
@@ -103,12 +105,28 @@ public class TestMoboplayer extends Activity {
 		mMoboVideoView.setSaveBufferInfoOrNot(false);
 		mMoboVideoView.setBufferListener(mBufferListener);// 设置缓冲回调接口
 		mMoboVideoView.setVideoPath(videoName);
-//		mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
+		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
 		// playAudioOnly(videoName, 0);
 		videoLayout.addView(mMoboVideoView);
 
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.e("TestMobo", "onPause()...");
+		isActivityPaused = true;
+		mMoboVideoView.pause();
+	}
+
+	@Override
+	public void onRestart() {
+		super.onRestart();
+		isActivityPaused = false;
+		Log.e("TestMobo", "onRestart()...");
+		mMoboVideoView.start();
 	}
 
 	BufferListener mBufferListener = new BufferListener() {
@@ -121,7 +139,8 @@ public class TestMoboplayer extends Activity {
 		@Override
 		public void onBufferEnd() {
 			// TODO Auto-generated method stub
-			mMoboVideoView.start();
+			if (!isActivityPaused)
+				mMoboVideoView.start();
 		}
 
 		@Override
@@ -131,9 +150,9 @@ public class TestMoboplayer extends Activity {
 		}
 
 		@Override
-		public void onBufferProgressChanged(int current,int duration) {
+		public void onBufferProgressChanged(int current, int duration) {
 			// TODO Auto-generated method stub
-			if(sb1.getMax()<current)
+			if (sb1.getMax() < current)
 				sb1.setMax(duration);
 			sb1.setSecondaryProgress(current);
 		}
@@ -343,7 +362,7 @@ public class TestMoboplayer extends Activity {
 		public void afterChanged(String arg0) {
 			startTimer();
 			mMoboVideoView.start();
-//			mMoboVideoView.seekTo(1);
+			// mMoboVideoView.seekTo(1);
 			tv1.setText("总时间：" + mMoboVideoView.getDuration() / 1000 + "");
 			tv2.setText("当前时间：" + mMoboVideoView.getCurrentPosition() / 1000
 					+ "");
