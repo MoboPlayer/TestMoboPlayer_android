@@ -48,9 +48,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "rtsp://192.168.42.1/live";// 郑源_一万个理由.wmv
-														// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
-														// rtsp://183.58.12.204/PLTV/88888905/224/3221227287/10000100000000060000000001066432_0.smil--rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov
+	final String videoName = "rtsp://192.168.42.1/live";// /sdcard/Movies/share-04.MP4
 
 	// Widget
 	Button btn1;
