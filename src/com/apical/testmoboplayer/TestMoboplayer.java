@@ -103,7 +103,7 @@ public class TestMoboplayer extends Activity {
 		mMoboVideoView.setSaveBufferInfoOrNot(false);
 		mMoboVideoView.setBufferListener(mBufferListener);// 设置缓冲回调接口
 		mMoboVideoView.setVideoPath(videoName);
-		// mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
+//		 mMoboVideoView.resetDecodeMode(MoboVideoView.decode_mode_soft);
 		mMoboVideoView
 				.setOnVideoStateChangedListener(mOnVideoStateChangedListener);
 		// playAudioOnly(videoName, 0);
