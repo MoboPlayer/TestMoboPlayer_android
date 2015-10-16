@@ -48,7 +48,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "rtsp://192.168.42.1/live";// /sdcard/Movies/share-04.MP4
+	final String videoName = "/sdcard/Movies/机器的叛变.rmvb";// /sdcard/Movies/share-04.MP4 rtsp://192.168.42.1/live
 
 	// Widget
 	Button btn1;

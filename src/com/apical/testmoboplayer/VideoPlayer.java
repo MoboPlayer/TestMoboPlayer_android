@@ -15,7 +15,7 @@ public class VideoPlayer extends Activity {
 	RelativeLayout videoLayout = null;
 	MoboVideoView mMoboVideoView = null;
 	
-	String path = "rtmp://192.168.0.236/fileList/test.flv";
+	String path = "rtsp://192.168.42.1/live";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
