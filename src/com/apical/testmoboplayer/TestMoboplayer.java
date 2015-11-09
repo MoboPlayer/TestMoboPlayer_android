@@ -48,7 +48,7 @@ public class TestMoboplayer extends Activity {
 	// final String videoName = "/sdcard/Movies/01010020_0006.MP4";//
 	// /sdcard/Movies/output_file_low.mkv--/sdcard/dy/ppkard.mp4
 
-	final String videoName = "/sdcard/Movies/花木兰.rmvb";// /sdcard/Movies/share-04.MP4 rtsp://192.168.42.1/live
+	final String videoName = "/sdcard/Movies/机器的叛变.rmvb";// /sdcard/Movies/share-04.MP4 rtsp://192.168.42.1/live
 
 	// Widget
 	Button btn1;
@@ -88,7 +88,7 @@ public class TestMoboplayer extends Activity {
 
 	void initVideo() {
 
-		mMoboVideoView = new MoboVideoView(this, null);
+		mMoboVideoView = new MoboVideoView(this, null, MoboVideoView.decode_mode_soft);
 		mMoboVideoView.loadNativeLibs();
 		String libpath = getFilesDir().getParent() + "/lib/";
 		String libname = "libffmpeg_armv7_neon.so";
