@@ -5,25 +5,21 @@
     android:background="@color/black"
     tools:context=".MainActivity" >
 
-    <LinearLayout android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <RelativeLayout
+        android:id="@+id/video_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:background="@color/white"
+        >
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/video_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
-        </RelativeLayout>
-        
-        <Button
-            android:id="@+id/btn_showorhide"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-        
-    </LinearLayout>
-
+    <TextView 
+        android:id="@+id/player_time"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_above="@+id/player_seek_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <SeekBar
         android:id="@+id/player_seek_bar"
         android:layout_width="fill_parent"
@@ -51,37 +47,63 @@
             android:id="@+id/player_prev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="上一曲" />
+            android:background="@drawable/player_prev" />
 
         <Button
             android:id="@+id/player_seek_backward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="后退" />
+            android:background="@drawable/player_seek_backward" />
 
         <Button
             android:id="@+id/player_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="播放/暂停" />
+            android:background="@drawable/player_play" />
 
         <Button
             android:id="@+id/player_seek_forward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="快进" />
+            android:background="@drawable/player_seek_forward" />
 
         <Button
             android:id="@+id/player_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="下一曲" />
+            android:background="@drawable/player_next" />
 
+        <Button
+            android:id="@+id/player_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="播放速度:1x" />
+        
+        <Button
+            android:id="@+id/player_decode_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="硬解" />
         <Button
             android:id="@+id/player_screen_shot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="截图" />
+        <Button
+            android:id="@+id/player_scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换比例" />
+        <Button
+            android:id="@+id/player_rorate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="旋转90度" />
     </LinearLayout>
-
+    
+    <ProgressBar 
+            android:id="@+id/player_loading"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 </RelativeLayout>
