@@ -61,7 +61,7 @@ public class MainActivity extends MoboBasePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
-		playList.add("/sdcard/Movies/test.mp4");
+		playList.add("/sdcard/Movies/原子弹.flv");
 		playList.add("/sdcard/Movies/2015-10-10-11-24-12.MP4");
 		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
 		playList.add("rtmp://221.2.201.187/flv/mp4:n2014/ys/kc61/kj142/fc/xrfx01.mp4");
