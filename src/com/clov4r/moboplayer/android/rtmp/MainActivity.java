@@ -61,7 +61,7 @@ public class MainActivity extends MoboBasePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
-		playList.add("/sdcard/Movies/机器的叛变.rmvb");
+		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");
 		playList.add("/sdcard/Movies/原子弹.flv");
 		playList.add("/sdcard/Movies/2015-10-10-11-24-12.MP4");
 		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
@@ -115,11 +115,11 @@ public class MainActivity extends MoboBasePlayer {
 	public void onStop() {
 		super.onStop();
 		// 测试打开新界面播放
-		Log.e("player", "onStop..");
-		if (mMoboVideoView.getPlayState() != MoboVideoView.state_stop) {
-			stop();
-			videoLayout.removeView(mMoboVideoView);
-		}
+//		Log.e("player", "onStop..");
+//		if (mMoboVideoView.getPlayState() != MoboVideoView.state_stop) {
+//			stop();
+//			videoLayout.removeView(mMoboVideoView);
+//		}
 		// 测试打开新界面播放
 	}
 
@@ -319,6 +319,8 @@ public class MainActivity extends MoboBasePlayer {
 				}
 			} else if (player_scale == v) {
 				changePlayerScale(displayMode);
+				Intent intent=new Intent(MainActivity.this,TestActivity.class);
+				startActivity(intent);
 			} else if (player_decode_mode == v) {
 				if (mMoboVideoView.getDecodeMode() == MoboVideoView.decode_mode_soft) {
 					mMoboVideoView
