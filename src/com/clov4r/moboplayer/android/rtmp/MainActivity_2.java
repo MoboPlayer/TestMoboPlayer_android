@@ -61,7 +61,7 @@ public class MainActivity_2 extends MoboBasePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
-		playList.add("rtsp://192.168.42.1/tmp/fuse_d/share/2015-01-13-02-26-30.MP4");///NORMAL/media001/2015-01-13-03-33-10.MP4
+		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");///NORMAL/media001/2015-01-13-03-33-10.MP4
 		playList.add("rtsp://192.168.42.1/tmp/fuse_d/share/2015-01-13-02-18-53.MP4");
 		 playList.add("rtsp://192.168.42.1/live");//
 		 playList.add("rtsp://192.168.42.1/live");//
@@ -121,21 +121,13 @@ public class MainActivity_2 extends MoboBasePlayer {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			// mMoboVideoView.getHolder().setFixedSize(
-			// mMoboVideoView.getVideoWidth(),
-			// mMoboVideoView.getVideoHeight());
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-					2048, 1536);
-			params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-			mMoboVideoView.setLayoutParams(params);
+			 mMoboVideoView.getHolder().setFixedSize(
+			 mMoboVideoView.getVideoWidth(),
+			 mMoboVideoView.getVideoHeight());
 		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			// mMoboVideoView.getHolder().setFixedSize(
-			// mMoboVideoView.getVideoWidth(),
-			// mMoboVideoView.getVideoHeight());
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-					1536, 1152);
-			params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-			mMoboVideoView.setLayoutParams(params);
+			 mMoboVideoView.getHolder().setFixedSize(
+			 mMoboVideoView.getVideoWidth(),
+			 mMoboVideoView.getVideoHeight());
 		}
 		// displayMode--;
 		// changePlayerScale(displayMode);

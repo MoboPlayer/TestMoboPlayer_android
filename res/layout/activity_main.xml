@@ -95,6 +95,11 @@
             android:layout_height="wrap_content"
             android:text="切换比例" />
         <Button
+            android:id="@+id/player_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新视频" />
+        <Button
             android:id="@+id/player_rorate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

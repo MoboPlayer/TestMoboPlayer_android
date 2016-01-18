@@ -39,7 +39,7 @@ public class MainActivity extends MoboBasePlayer {
 	TextView subtitle_view, player_time;
 	Button player_prev, player_seek_backward, player_pause,
 			player_seek_forward, player_next, player_screen_shot, player_scale,
-			player_decode_mode, player_rorate, player_speed;
+			player_decode_mode, player_rorate, player_speed, player_new;
 	ProgressBar player_loading;
 	boolean isPlaying = false;
 
@@ -53,6 +53,7 @@ public class MainActivity extends MoboBasePlayer {
 	boolean isShangeHaiYaoyuan = false;
 	int rotation = 0;
 	float currentSpeed = 1f;
+	int position;
 	/**
 	 * 用来保存各个视频的播放进度
 	 */
@@ -107,20 +108,13 @@ public class MainActivity extends MoboBasePlayer {
 	@Override
 	public void onPause() {
 		super.onPause();
-
 		mMoboVideoView.pause();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		// 测试打开新界面播放
-//		Log.e("player", "onStop..");
-//		if (mMoboVideoView.getPlayState() != MoboVideoView.state_stop) {
-//			stop();
-//			videoLayout.removeView(mMoboVideoView);
-//		}
-		// 测试打开新界面播放
+		Log.e("player", "onStop..");
 	}
 
 	@Override
@@ -171,6 +165,7 @@ public class MainActivity extends MoboBasePlayer {
 		player_decode_mode = (Button) findViewById(R.id.player_decode_mode);
 		player_rorate = (Button) findViewById(R.id.player_rorate);
 		player_speed = (Button) findViewById(R.id.player_speed);
+		player_new = (Button) findViewById(R.id.player_new);
 		player_loading = (ProgressBar) findViewById(R.id.player_loading);
 		player_prev.setOnClickListener(mOnClickListener);
 		player_seek_backward.setOnClickListener(mOnClickListener);
@@ -183,9 +178,12 @@ public class MainActivity extends MoboBasePlayer {
 		player_scale.setOnClickListener(mOnClickListener);
 		player_rorate.setOnClickListener(mOnClickListener);
 		player_speed.setOnClickListener(mOnClickListener);
+		player_new.setOnClickListener(mOnClickListener);
 		player_loading.setVisibility(View.GONE);
 		player_rorate.setVisibility(View.GONE);
 		player_decode_mode.setVisibility(View.GONE);
+		player_seek_backward.setVisibility(View.GONE);
+		player_seek_forward.setVisibility(View.GONE);
 
 		if (isShangeHaiYaoyuan) {
 			player_seek_backward.setVisibility(View.GONE);
@@ -233,6 +231,8 @@ public class MainActivity extends MoboBasePlayer {
 			// mMoboVideoView.seekTo(currentPosition);
 			duration = mMoboVideoView.getDuration() / 1000;
 			player_seek_bar.setMax(duration);
+			if(currentPosition>0)
+				mMoboVideoView.seekTo(currentPosition);
 			// getSubInfo(currentVideoPath);//获取视频的字幕信息
 			// enableExtSubtitle("/sdcard/Movies/[YYDM-11FANS][CLANNAD][BDrip][24][X264_AAC][1280X720].ass");//打开外置字幕
 
@@ -319,8 +319,6 @@ public class MainActivity extends MoboBasePlayer {
 				}
 			} else if (player_scale == v) {
 				changePlayerScale(displayMode);
-				Intent intent=new Intent(MainActivity.this,TestActivity.class);
-				startActivity(intent);
 			} else if (player_decode_mode == v) {
 				if (mMoboVideoView.getDecodeMode() == MoboVideoView.decode_mode_soft) {
 					mMoboVideoView
@@ -340,6 +338,10 @@ public class MainActivity extends MoboBasePlayer {
 				mMoboVideoView.setRotation(rotation);
 				mMoboVideoView.getHolder()
 						.setFixedSize(dirctWidth, dirctHeight);
+			}else if(player_new == v){
+				stop();
+				Intent intent=new Intent(MainActivity.this,MainActivity_2.class);
+				startActivity(intent);
 			}
 		}
 	};

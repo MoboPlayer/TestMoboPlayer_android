@@ -79,7 +79,7 @@ public class MoboBasePlayer extends Activity {
 
 	public void onDestroy() {
 		super.onDestroy();
-		mMoboVideoView.stop();
+//		mMoboVideoView.stop();
 		unregisterReceiver(mHomeKeyBroadCastReceiver);
 	}
 

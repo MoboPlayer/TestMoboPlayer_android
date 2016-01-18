@@ -44,6 +44,10 @@
             android:name="com.clov4r.moboplayer.android.rtmp.TestActivity"
             android:label="@string/title_activity_test_code" >
         </activity>
+        <activity
+            android:name="com.clov4r.moboplayer.android.rtmp.MainActivity_2"
+            android:label="@string/title_activity_test_code" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" >
