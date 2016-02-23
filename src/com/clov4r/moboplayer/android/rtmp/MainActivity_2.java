@@ -61,8 +61,9 @@ public class MainActivity_2 extends MoboBasePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
-		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");///NORMAL/media001/2015-01-13-03-33-10.MP4
+		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
 		playList.add("rtsp://192.168.42.1/tmp/fuse_d/share/2015-01-13-02-18-53.MP4");
+		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");///NORMAL/media001/2015-01-13-03-33-10.MP4
 		 playList.add("rtsp://192.168.42.1/live");//
 		 playList.add("rtsp://192.168.42.1/live");//
 		 playList.add("rtsp://192.168.42.1/live");//

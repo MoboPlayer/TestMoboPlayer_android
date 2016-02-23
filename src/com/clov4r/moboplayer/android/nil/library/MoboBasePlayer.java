@@ -398,7 +398,6 @@ public class MoboBasePlayer extends Activity {
 	private void exchangePlayerScale() {
 		if (videoHeight <= 0 || videoWidth <= 0)
 			return;
-		displayMode++;
 		float f = (float) videoWidth / (float) videoHeight;
 
 		if (displayMode > PLAY_DISPLAY_MODE_FOUR) {

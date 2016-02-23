@@ -62,12 +62,12 @@ public class MainActivity extends MoboBasePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
+		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
+		playList.add("rtsp://192.168.42.1/live");//
 		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");
 		playList.add("/sdcard/Movies/原子弹.flv");
 		playList.add("/sdcard/Movies/2015-10-10-11-24-12.MP4");
-		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
 		playList.add("rtmp://221.2.201.187/flv/mp4:n2014/ys/kc61/kj142/fc/xrfx01.mp4");
-		playList.add("rtsp://192.168.42.1/live");//
 		playList.add("/sdcard/Non44100&16/星屑の砂時計.flac");
 		playList.add("http://183.62.232.213:8080/download/flv/97/2015-08-16-09-48-43.MP4");
 		playList.add("rtmp://121.42.26.165/live/livestream");// NORMAL/media001/2015-01-13-03-33-10.MP4
@@ -121,7 +121,8 @@ public class MainActivity extends MoboBasePlayer {
 	public void onRestart() {
 		super.onRestart();
 		Log.e("player", "onRestart..");
-		playIndexOf(currentVideoIndex);
+//		playIndexOf(currentVideoIndex);
+		mMoboVideoView.restart();
 	}
 
 	@Override
@@ -137,17 +138,17 @@ public class MainActivity extends MoboBasePlayer {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			mMoboVideoView.getHolder().setFixedSize(
-					mMoboVideoView.getVideoWidth(),
-					mMoboVideoView.getVideoHeight());
-		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mMoboVideoView.getHolder().setFixedSize(
-					mMoboVideoView.getVideoWidth(),
-					mMoboVideoView.getVideoHeight());
-		}
-		// displayMode--;
-		// changePlayerScale(displayMode);
+//		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//			mMoboVideoView.getHolder().setFixedSize(
+//					mMoboVideoView.getVideoWidth(),
+//					mMoboVideoView.getVideoHeight());
+//		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//			mMoboVideoView.getHolder().setFixedSize(
+//					mMoboVideoView.getVideoWidth(),
+//					mMoboVideoView.getVideoHeight());
+//		}
+//		// displayMode--;
+		 changePlayerScale(displayMode);
 	}
 
 	void initViews() {
@@ -482,12 +483,12 @@ public class MainActivity extends MoboBasePlayer {
 				playAudioOnly(currentVideoPath, 0);
 			else {
 
-				// mMoboVideoView.setIsLive(true);// 点播时可不设置
+//				 mMoboVideoView.setIsLive(true);// 点播时可不设置
 				mMoboVideoView.dropInvalidFrame(true);
-				mMoboVideoView.setBufferedTime(7);// 设置缓冲时间
+				mMoboVideoView.setBufferedTime(2);// 设置缓冲时间
 				mMoboVideoView.setSaveBufferInfoOrNot(false);
 				mMoboVideoView.dropInvalidFrame(true);
-				mMoboVideoView.setBufferListener(mBufferListener);// 设置缓冲回调接口
+//				mMoboVideoView.setBufferListener(mBufferListener);// 设置缓冲回调接口
 
 				videoParams = 0 + "\n" + 0;// 播放第0个音轨+第0个字幕
 				setVideoPath(currentVideoPath, videoParams,
@@ -501,7 +502,11 @@ public class MainActivity extends MoboBasePlayer {
 		setPlayerScale(displayMode);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				playerWidth, playerHeight);
-		params.addRule(RelativeLayout.CENTER_IN_PARENT);
+//		params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+			params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		else
+			params.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		Log.e("MoboVideoView", playerWidth + "X" + playerHeight);
 		mMoboVideoView.setLayoutParams(params);
 	}
