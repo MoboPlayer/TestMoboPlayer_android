@@ -484,7 +484,7 @@ public class MainActivity extends MoboBasePlayer {
 			else {
 
 //				 mMoboVideoView.setIsLive(true);// 点播时可不设置
-				mMoboVideoView.dropInvalidFrame(true);
+//				mMoboVideoView.dropInvalidFrame(true);
 				mMoboVideoView.setBufferedTime(2);// 设置缓冲时间
 				mMoboVideoView.setSaveBufferInfoOrNot(false);
 				mMoboVideoView.dropInvalidFrame(true);
@@ -492,7 +492,7 @@ public class MainActivity extends MoboBasePlayer {
 
 				videoParams = 0 + "\n" + 0;// 播放第0个音轨+第0个字幕
 				setVideoPath(currentVideoPath, videoParams,
-						MoboVideoView.decode_mode_soft);// decode_mode_hard
+						MoboVideoView.decode_mode_hard);// decode_mode_soft
 				openSubtitleFile(currentVideoPath, 0);// 打开字幕文件
 			}
 		}
