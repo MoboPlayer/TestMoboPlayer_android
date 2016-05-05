@@ -63,8 +63,8 @@ public class MainActivity extends MoboBasePlayer {
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
 		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
-		playList.add("rtsp://192.168.42.1/live");//
 		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");
+		playList.add("rtsp://192.168.42.1/live");//
 		playList.add("/sdcard/Movies/原子弹.flv");
 		playList.add("/sdcard/Movies/2015-10-10-11-24-12.MP4");
 		playList.add("rtmp://221.2.201.187/flv/mp4:n2014/ys/kc61/kj142/fc/xrfx01.mp4");
