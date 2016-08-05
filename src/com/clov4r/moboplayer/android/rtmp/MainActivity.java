@@ -62,6 +62,8 @@ public class MainActivity extends MoboBasePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
+		playList.add("/sdcard/Movies/Fast_five.mkv");
+		playList.add("rtmp://221.2.201.187/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
 		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
 		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");
 		playList.add("rtsp://192.168.42.1/live");//
@@ -92,7 +94,7 @@ public class MainActivity extends MoboBasePlayer {
 		playIndexOf(0);
 		// currentVideoIndex=-1;
 
-		showFloatPlayerByHomeKey(false);//Home键打开悬浮窗口
+		showFloatPlayerByHomeKey(true);//Home键打开悬浮窗口
 		setFloatPlayerListener(mFloatPlayerListener);
 		// mMoboVideoView.scanMediaFile(playList.get(0), null, 1, 343, 234, 1);
 	}
