@@ -62,37 +62,14 @@ public class MainActivity extends MoboBasePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {// rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4
 														// share-04.MP4
-		playList.add("/sdcard/Movies/Fast_five.mkv");
-		playList.add("rtmp://221.2.201.187/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
-		playList.add("rtmp://61.133.116.49/flv/mp4:n2014/jxjy/kc213/kj2276/fc/gdxxkjzd201401.mp4");
-		playList.add("http://61.67.205.74/vod/_definst_/KM//mp4:138_1505_PriceIndex.mp4/playlist.m3u8");
-		playList.add("rtsp://192.168.42.1/live");//
-		playList.add("/sdcard/Movies/原子弹.flv");
-		playList.add("/sdcard/Movies/2015-10-10-11-24-12.MP4");
-		playList.add("rtmp://221.2.201.187/flv/mp4:n2014/ys/kc61/kj142/fc/xrfx01.mp4");
-		playList.add("/sdcard/Non44100&16/星屑の砂時計.flac");
-		playList.add("http://183.62.232.213:8080/download/flv/97/2015-08-16-09-48-43.MP4");
-		playList.add("rtmp://121.42.26.165/live/livestream");// NORMAL/media001/2015-01-13-03-33-10.MP4
-		playList.add("rtsp://192.168.42.1/tmp/fuse_d/share/2015-01-13-02-26-30.MP4");// 2015-01-13-03-21-17.MP4
-		playList.add("rtsp://192.168.42.1/live");//
-		playList.add("/sdcard/Movies/2015-06-16-15-17-36.MP4");
-		playList.add("/sdcard/Movies/2015-01-10-04-29-17.MP4");
-		playList.add("/sdcard/movie/2015-08-02-09-34-08.MP4");
-		playList.add("rtsp://192.168.42.1/live");//
-		playList.add("rtsp://192.168.42.1/tmp/fuse_d/NORMAL/media001/2015-01-13-02-52-50.MP4");
-		playList.add("rtsp://192.168.42.1/tmp/fuse_d/SHARE/2015-08-02-09-34-08.MP4");
-		playList.add("/sdcard/Movies/all is well.rmvb");
-		playList.add("http://1011.lssplay.aodianyun.com/demo/stock.m3u8");//
-		playList.add("/sdcard/Movies/sample3.mp4");
-		playList.add("/sdcard/Movies/sample.mp4");
-		playList.add("/sdcard/Movies/sample2.mp4");
-		playList.add("/sdcard/Movies/2015-01-10-04-29-17.MP4");
+		playList.add("rtsp://192.168.1.128/Fast_Five.mkv");
+		playList.add("/sdcard/Movies/Amazon_720.wmv");
 		super.onCreate(savedInstanceState);
 		currentVideoPath = playList.get(0);
 		setContentView(R.layout.activity_main);
 		initViews();
-		playIndexOf(0);
-		// currentVideoIndex=-1;
+//		playIndexOf(0);//播放视频
+		download("rtsp://192.168.1.128/Fast_Five.mkv");//下载视频
 
 		showFloatPlayerByHomeKey(true);//Home键打开悬浮窗口
 		setFloatPlayerListener(mFloatPlayerListener);
@@ -466,6 +443,46 @@ public class MainActivity extends MoboBasePlayer {
 		} else
 			mMoboVideoView.seekTo(time);
 	}
+
+	void download(String url){
+		mMoboVideoView = new MoboVideoView(this, null);
+		mMoboVideoView.loadNativeLibs();
+		mMoboVideoView.setBufferListener(downloadBufferListener);
+		mMoboVideoView.startDownload(url, "/sdcard/test/test.mkv", true, 0);
+	}
+	
+	BufferListener downloadBufferListener = new BufferListener(){
+
+		@Override
+		public void onBufferStart() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onBufferEnd() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onBufferProgressChanged(int time, int duration) {
+			// TODO Auto-generated method stub
+			currentPosition = time;
+			MainActivity.this.duration = duration;
+			runOnUiThread(new Runnable(){
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					player_time.setText("已下载：" + currentPosition + "===总时长：" + MainActivity.this.duration);
+				}});
+		}
+
+		@Override
+		public void onBufferFailed(String msg) {
+			// TODO Auto-generated method stub
+			
+		}};
 
 	protected void playIndexOf(int index) {
 		super.playIndexOf(index);
